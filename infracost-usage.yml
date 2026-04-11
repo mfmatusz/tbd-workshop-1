@@ -1,0 +1,10 @@
+version: 0.1
+
+resource_usage:
+  google_artifact_registry_repository.*:
+    storage_gb: 50
+    
+  google_storage_bucket.*:
+    storage_gb: 100
+    monthly_class_a_operations: 10000
+    monthly_class_b_operations: 50000
