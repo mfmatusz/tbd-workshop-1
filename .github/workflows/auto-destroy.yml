@@ -10,6 +10,8 @@ env:
   TF_VAR_tbd_semester: ${{ vars.TF_VAR_TBD_SEMESTER }}
   TF_VAR_project_name: ${{ vars.TF_VAR_PROJECT_NAME }}
 
+permissions: read-all
+
 jobs:
   auto-destroy:
     name: "Auto Destroy Resources"
