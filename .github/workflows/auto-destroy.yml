@@ -9,6 +9,8 @@ on:
 env:
   TF_VAR_tbd_semester: ${{ vars.TF_VAR_TBD_SEMESTER }}
   TF_VAR_project_name: ${{ vars.TF_VAR_PROJECT_NAME }}
+  workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+  service_account: ${{ secrets.GCP_WORKLOAD_IDENTITY_SA_EMAIL }}
 
 permissions: read-all
 
@@ -31,7 +33,7 @@ jobs:
         uses: google-github-actions/auth@v1
         with:
           workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
-          
+          service_account: ${{ secrets.GCP_WORKLOAD_IDENTITY_SA_EMAIL }}
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
