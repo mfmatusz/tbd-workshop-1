@@ -12,9 +12,6 @@ jobs:
       id-token: write
       pull-requests: write
       issues: write
-    env:
-      TF_VAR_tbd_semester: 2026L
-      TF_VAR_project_name: tbd-2026l-324932
 
     steps:
     - uses: 'actions/checkout@v3'
