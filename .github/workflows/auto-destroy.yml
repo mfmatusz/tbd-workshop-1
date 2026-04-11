@@ -1,0 +1,45 @@
+name: Auto Destroy Infrastructure
+on:
+  schedule:
+    - cron: '0 20 * * *' # Runs daily at 20:00 UTC
+  pull_request:
+    types:
+      - closed # Runs when a PR with a specific tag is merged
+      
+env:
+  TF_VAR_tbd_semester: ${{ vars.TF_VAR_TBD_SEMESTER }}
+  TF_VAR_project_name: ${{ vars.TF_VAR_PROJECT_NAME }}
+
+permissions: read-all
+
+jobs:
+  auto-destroy:
+    name: "Auto Destroy Resources"
+    # Check if it's a scheduled run or a merged PR with [CLEANUP] in the title
+    if: github.event_name == 'schedule' || (github.event.pull_request.merged == true && contains(github.event.pull_request.title, '[CLEANUP]'))
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v1
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_WORKLOAD_IDENTITY_SA_EMAIL }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.5.7
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Destroy
+        run: terraform destroy -auto-approve
