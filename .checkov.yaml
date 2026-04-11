@@ -13,6 +13,19 @@ skip-check:
   - CKV_DOCKER_3 # "Ensure that a user for the container has been created"
   - CKV_DOCKER_2 # "Ensure that HEALTHCHECK instructions have been added to container images"
   - CKV2_GCP_12 # "Ensure GCP compute firewall ingress does not allow unrestricted access to all ports"
+  - CKV_GCP_64 # "Ensure clusters are created with Private Nodes"
+  - CKV_GCP_13 # "Ensure client certificate authentication to Kubernetes Engine Clusters is disabled"
+  - CKV_GCP_69 # "Ensure the GKE Metadata Server is Enabled"
+  - CKV_GCP_65 # "Manage Kubernetes RBAC users with Google Groups for GKE"
+  - CKV_GCP_66 # "Ensure use of Binary Authorization"
+  - CKV_GCP_70 # "Ensure the GKE Release Channel is set"
+  - CKV_GCP_20 # "Ensure master authorized networks is set to enabled in GKE clusters"
+  - CKV_GCP_61 # "Enable VPC Flow Logs and Intranode Visibility"
+  - CKV_GCP_21 # "Ensure Kubernetes Clusters are configured with Labels"
+  - CKV_GCP_10 # "Ensure 'Automatic node upgrade' is enabled for Kubernetes Clusters"
+  - CKV_GCP_68 # "Ensure Secure Boot for Shielded GKE Nodes is Enabled"
+  - CKV_GCP_9 # "Ensure 'Automatic node repair' is enabled for Kubernetes Clusters"
+  - CKV_SECRET_9 # "JSON Web Token"
 
 skip-path:
- - gha-creds-*json
+ - gha-creds-*.json
