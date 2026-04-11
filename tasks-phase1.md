@@ -426,9 +426,11 @@ create a sample usage profiles and add it to the Infracost task in CI/CD pipelin
     SELECT * FROM shakespeare.main LIMIT 10;
     ```
     ![sql](doc/figures/sql.png)
+    
     ***why does ORC not require a table schema?***
+    
     ORC files are self-describing, they store the column names along with their type and metadata in the file itself
-11. Add support for preemptible/spot instances in a Dataproc cluster
+12. Add support for preemptible/spot instances in a Dataproc cluster
 
     ***place the link to the modified file and inserted terraform code***
     - Link: [modules/dataproc/main.tf](modules/dataproc/main.tf)
@@ -440,7 +442,7 @@ create a sample usage profiles and add it to the Infracost task in CI/CD pipelin
     ```
 
 
-12. Triggered Terraform Destroy on Schedule or After PR Merge. Goal: make sure we never forget to clean up resources and burn money.
+13. Triggered Terraform Destroy on Schedule or After PR Merge. Goal: make sure we never forget to clean up resources and burn money.
 
 Add a new GitHub Actions workflow that:
   1. runs terraform destroy -auto-approve
@@ -471,6 +473,8 @@ env:
   TF_VAR_tbd_semester: ${{ vars.TF_VAR_TBD_SEMESTER }}
   TF_VAR_project_name: ${{ vars.TF_VAR_PROJECT_NAME }}
 
+permissions: read-all
+
 jobs:
   auto-destroy:
     name: "Auto Destroy Resources"
@@ -489,24 +493,25 @@ jobs:
         id: auth
         uses: google-github-actions/auth@v1
         with:
-          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_NAME }}
           service_account: ${{ secrets.GCP_WORKLOAD_IDENTITY_SA_EMAIL }}
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: 1.5.7
+          terraform_version: 1.11.0
 
       - name: Terraform Init
-        run: terraform init
+        id: init
+        run: terraform init -backend-config=env/backend.tfvars
 
       - name: Terraform Destroy
-        run: terraform destroy -auto-approve
+        run: terraform destroy -auto-approve -var-file=env/project.tfvars -lock=false
 ```
 
 ***paste screenshot/log snippet confirming the auto-destroy ran***
 
 *(paste the screenshot of the Auto-Destroy run from the GH Actions tab after merging a Pull Request with the [CLEANUP] tag here)*
-
+![teardown](doc/figures/teardown.png)
 ***write one sentence why scheduling cleanup helps in this workshop***
 Scheduling cleanup is crucial because Big Data components (like Dataproc and external Composer instances) are heavily billable per-hour, so forgetting to destroy resources manually could drain the student's or the workshop provider's cloud budget overnight.
