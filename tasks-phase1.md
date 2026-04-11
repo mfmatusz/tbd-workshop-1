@@ -426,9 +426,11 @@ create a sample usage profiles and add it to the Infracost task in CI/CD pipelin
     SELECT * FROM shakespeare.main LIMIT 10;
     ```
     ![sql](doc/figures/sql.png)
+    
     ***why does ORC not require a table schema?***
+    
     ORC files are self-describing, they store the column names along with their type and metadata in the file itself
-11. Add support for preemptible/spot instances in a Dataproc cluster
+12. Add support for preemptible/spot instances in a Dataproc cluster
 
     ***place the link to the modified file and inserted terraform code***
     - Link: [modules/dataproc/main.tf](modules/dataproc/main.tf)
@@ -440,7 +442,7 @@ create a sample usage profiles and add it to the Infracost task in CI/CD pipelin
     ```
 
 
-12. Triggered Terraform Destroy on Schedule or After PR Merge. Goal: make sure we never forget to clean up resources and burn money.
+13. Triggered Terraform Destroy on Schedule or After PR Merge. Goal: make sure we never forget to clean up resources and burn money.
 
 Add a new GitHub Actions workflow that:
   1. runs terraform destroy -auto-approve
