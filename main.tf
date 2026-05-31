@@ -76,7 +76,7 @@ module "dataproc" {
   project_name  = var.project_name
   region        = var.region
   subnet        = module.vpc.subnets[local.notebook_subnet_id].id
-  machine_type  = "e2-highmem-4"
+  machine_type  = "e2-highmem-2"
   image_version = "2.2.69-ubuntu22"
 }
 
@@ -115,7 +115,7 @@ module "airflow" {
   region       = var.region
   network      = module.vpc.network.network_name
   subnet       = module.vpc.subnets[local.notebook_subnet_id].id
-  machine_type = "e2-standard-1"
+  machine_type = "e2-standard-2"
 }
 
 #module "dbt_docker_image" {
