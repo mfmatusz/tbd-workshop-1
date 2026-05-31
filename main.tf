@@ -115,7 +115,7 @@ module "airflow" {
   region       = var.region
   network      = module.vpc.network.network_name
   subnet       = module.vpc.subnets[local.notebook_subnet_id].id
-  machine_type = "e2-standard-2"
+  machine_type = "e2-standard-1"
 }
 
 #module "dbt_docker_image" {
@@ -228,7 +228,7 @@ resource "helm_release" "airflow" {
   # Increase startup probe timeout — Gunicorn needs >60s on e2-standard-2
   set {
     name  = "webserver.startupProbe.failureThreshold"
-    value = "12"
+    value = "120"
   }
   set {
     name  = "webserver.startupProbe.periodSeconds"
