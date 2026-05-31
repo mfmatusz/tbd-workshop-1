@@ -76,7 +76,7 @@ module "dataproc" {
   project_name  = var.project_name
   region        = var.region
   subnet        = module.vpc.subnets[local.notebook_subnet_id].id
-  machine_type  = "e2-highmem-2"
+  machine_type  = "e2-highmem-4"
   image_version = "2.2.69-ubuntu22"
 }
 
